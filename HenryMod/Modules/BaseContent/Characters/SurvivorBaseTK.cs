@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace HenryMod.Modules.Characters {
-    public abstract class SurvivorBase<T> : CharacterBase<T> where T : SurvivorBase<T>, new() {
+    public abstract class SurvivorBaseTK<T> : CharacterBaseTK<T> where T : SurvivorBaseTK<T>, new() {
         public abstract string masterName { get; }
 
         public abstract string displayPrefabName { get; }
+
+        public abstract string survivorDefName { get; }
 
         public abstract string survivorTokenPrefix { get; }
 
@@ -24,11 +26,11 @@ namespace HenryMod.Modules.Characters {
         }
 
         protected virtual void InitDisplayPrefab() {
-            displayPrefab = Prefabs.CreateDisplayPrefab(assetBundle, displayPrefabName, bodyPrefab);
+            displayPrefab = Prefabs.LoadDisplayPrefab(assetBundle, displayPrefabName);
         }
 
         protected virtual void InitSurvivor() {
-            Content.CreateSurvivor(bodyPrefab, displayPrefab, bodyInfo.bodyColor, survivorTokenPrefix, characterUnlockableDef, bodyInfo.sortPosition);
+            Content.CreateSurvivor(assetBundle.LoadAsset<SurvivorDef>(survivorDefName));
         }
 
         #region CharacterSelectSurvivorPreviewDisplayController

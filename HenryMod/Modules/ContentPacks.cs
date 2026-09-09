@@ -27,7 +27,7 @@ namespace HenryMod.Modules {
 
         public static List<NetworkSoundEventDef> networkSoundEventDefs = new List<NetworkSoundEventDef>();
 
-        public void Initialize()
+        public void Init()
         {
             ContentManager.collectContentPackProviders += ContentManager_collectContentPackProviders;
         }

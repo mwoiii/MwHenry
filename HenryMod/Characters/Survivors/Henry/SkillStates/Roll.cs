@@ -1,32 +1,27 @@
 ﻿using EntityStates;
-using HenryMod.Survivors.Henry;
 using RoR2;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace HenryMod.Survivors.Henry.SkillStates
-{
-    public class Roll : BaseSkillState
-    {
+namespace HenryMod.Survivors.Henry.SkillStates {
+    public class Roll : BaseSkillState {
         public static float duration = 0.5f;
         public static float initialSpeedCoefficient = 5f;
         public static float finalSpeedCoefficient = 2.5f;
 
         public static string dodgeSoundString = "HenryRoll";
-        public static float dodgeFOV = global::EntityStates.Commando.DodgeState.dodgeFOV;
+        public static float dodgeFOV = EntityStates.Commando.DodgeState.dodgeFOV;
 
         private float rollSpeed;
         private Vector3 forwardDirection;
         private Animator animator;
         private Vector3 previousPosition;
 
-        public override void OnEnter()
-        {
+        public override void OnEnter() {
             base.OnEnter();
             animator = GetModelAnimator();
 
-            if (isAuthority && inputBank && characterDirection)
-            {
+            if (isAuthority && inputBank && characterDirection) {
                 forwardDirection = (inputBank.moveVector == Vector3.zero ? characterDirection.forward : inputBank.moveVector).normalized;
             }
 
@@ -38,8 +33,7 @@ namespace HenryMod.Survivors.Henry.SkillStates
 
             RecalculateRollSpeed();
 
-            if (characterMotor && characterDirection)
-            {
+            if (characterMotor && characterDirection) {
                 characterMotor.velocity.y = 0f;
                 characterMotor.velocity = forwardDirection * rollSpeed;
             }
@@ -50,29 +44,29 @@ namespace HenryMod.Survivors.Henry.SkillStates
             PlayAnimation("FullBody, Override", "Roll", "Roll.playbackRate", duration);
             Util.PlaySound(dodgeSoundString, gameObject);
 
-            if (NetworkServer.active)
-            {
+            if (NetworkServer.active) {
                 characterBody.AddTimedBuff(HenryBuffs.armorBuff, 3f * duration);
                 characterBody.AddTimedBuff(RoR2Content.Buffs.HiddenInvincibility, 0.5f * duration);
             }
         }
 
-        private void RecalculateRollSpeed()
-        {
+        private void RecalculateRollSpeed() {
             rollSpeed = moveSpeedStat * Mathf.Lerp(initialSpeedCoefficient, finalSpeedCoefficient, fixedAge / duration);
         }
 
-        public override void FixedUpdate()
-        {
+        public override void FixedUpdate() {
             base.FixedUpdate();
             RecalculateRollSpeed();
 
-            if (characterDirection) characterDirection.forward = forwardDirection;
-            if (cameraTargetParams) cameraTargetParams.fovOverride = Mathf.Lerp(dodgeFOV, 60f, fixedAge / duration);
+            if (characterDirection) {
+                characterDirection.forward = forwardDirection;
+            }
+            if (cameraTargetParams) {
+                cameraTargetParams.fovOverride = Mathf.Lerp(dodgeFOV, 60f, fixedAge / duration);
+            }
 
             Vector3 normalized = (transform.position - previousPosition).normalized;
-            if (characterMotor && characterDirection && normalized != Vector3.zero)
-            {
+            if (characterMotor && characterDirection && normalized != Vector3.zero) {
                 Vector3 vector = normalized * rollSpeed;
                 float d = Mathf.Max(Vector3.Dot(vector, forwardDirection), 0f);
                 vector = forwardDirection * d;
@@ -82,29 +76,27 @@ namespace HenryMod.Survivors.Henry.SkillStates
             }
             previousPosition = transform.position;
 
-            if (isAuthority && fixedAge >= duration)
-            {
+            if (isAuthority && fixedAge >= duration) {
                 outer.SetNextStateToMain();
                 return;
             }
         }
 
-        public override void OnExit()
-        {
-            if (cameraTargetParams) cameraTargetParams.fovOverride = -1f;
+        public override void OnExit() {
+            if (cameraTargetParams) {
+                cameraTargetParams.fovOverride = -1f;
+            }
             base.OnExit();
 
             characterMotor.disableAirControlUntilCollision = false;
         }
 
-        public override void OnSerialize(NetworkWriter writer)
-        {
+        public override void OnSerialize(NetworkWriter writer) {
             base.OnSerialize(writer);
             writer.Write(forwardDirection);
         }
 
-        public override void OnDeserialize(NetworkReader reader)
-        {
+        public override void OnDeserialize(NetworkReader reader) {
             base.OnDeserialize(reader);
             forwardDirection = reader.ReadVector3();
         }

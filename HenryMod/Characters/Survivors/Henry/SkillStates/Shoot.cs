@@ -1,16 +1,13 @@
 ﻿using EntityStates;
-using HenryMod.Survivors.Henry;
 using RoR2;
 using UnityEngine;
 
-namespace HenryMod.Survivors.Henry.SkillStates
-{
-    public class Shoot : BaseSkillState
-    {
+namespace HenryMod.Survivors.Henry.SkillStates {
+    public class Shoot : BaseSkillState {
         public static float damageCoefficient = HenryStaticValues.gunDamageCoefficient;
         public static float procCoefficient = 1f;
         public static float baseDuration = 0.6f;
-        //delay on firing is usually ass-feeling. only set this if you know what you're doing
+
         public static float firePercentTime = 0.0f;
         public static float force = 800f;
         public static float recoil = 3f;
@@ -22,8 +19,7 @@ namespace HenryMod.Survivors.Henry.SkillStates
         private bool hasFired;
         private string muzzleString;
 
-        public override void OnEnter()
-        {
+        public override void OnEnter() {
             base.OnEnter();
             duration = baseDuration / attackSpeedStat;
             fireTime = firePercentTime * duration;
@@ -33,44 +29,36 @@ namespace HenryMod.Survivors.Henry.SkillStates
             PlayAnimation("LeftArm, Override", "ShootGun", "ShootGun.playbackRate", 1.8f);
         }
 
-        public override void OnExit()
-        {
+        public override void OnExit() {
             base.OnExit();
         }
 
-        public override void FixedUpdate()
-        {
+        public override void FixedUpdate() {
             base.FixedUpdate();
 
-            if (fixedAge >= fireTime)
-            {
+            if (fixedAge >= fireTime) {
                 Fire();
             }
 
-            if (fixedAge >= duration && isAuthority)
-            {
+            if (fixedAge >= duration && isAuthority) {
                 outer.SetNextStateToMain();
                 return;
             }
         }
 
-        private void Fire()
-        {
-            if (!hasFired)
-            {
+        private void Fire() {
+            if (!hasFired) {
                 hasFired = true;
 
                 characterBody.AddSpreadBloom(1.5f);
                 EffectManager.SimpleMuzzleFlash(EntityStates.Commando.CommandoWeapon.FirePistol2.muzzleEffectPrefab, gameObject, muzzleString, false);
                 Util.PlaySound("HenryShootPistol", gameObject);
 
-                if (isAuthority)
-                {
+                if (isAuthority) {
                     Ray aimRay = GetAimRay();
                     AddRecoil(-1f * recoil, -2f * recoil, -0.5f * recoil, 0.5f * recoil);
 
-                    new BulletAttack
-                    {
+                    new BulletAttack {
                         bulletCount = 1,
                         aimVector = aimRay.direction,
                         origin = aimRay.origin,
@@ -103,8 +91,7 @@ namespace HenryMod.Survivors.Henry.SkillStates
             }
         }
 
-        public override InterruptPriority GetMinimumInterruptPriority()
-        {
+        public override InterruptPriority GetMinimumInterruptPriority() {
             return InterruptPriority.PrioritySkill;
         }
     }

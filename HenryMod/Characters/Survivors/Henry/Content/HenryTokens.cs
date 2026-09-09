@@ -1,23 +1,16 @@
-﻿using System;
-using HenryMod.Modules;
+﻿using HenryMod.Modules;
 using HenryMod.Survivors.Henry.Achievements;
+using System;
 
-namespace HenryMod.Survivors.Henry
-{
-    public static class HenryTokens
-    {
-        public static void Init()
-        {
+namespace HenryMod.Survivors.Henry {
+    public static class HenryTokens {
+        public static void Init() {
             AddHenryTokens();
 
-            ////uncomment this to spit out a lanuage file with all the above tokens that people can translate
-            ////make sure you set Language.usingLanguageFolder and printingEnabled to true
             //Language.PrintOutput("Henry.txt");
-            ////refer to guide on how to build and distribute your mod with the proper folders
         }
 
-        public static void AddHenryTokens()
-        {
+        public static void AddHenryTokens() {
             string prefix = HenrySurvivor.HENRY_PREFIX;
 
             string desc = "Henry is a skilled fighter who makes use of a wide arsenal of weaponry to take down his foes.<color=#CCD3E0>" + Environment.NewLine + Environment.NewLine
@@ -47,12 +40,12 @@ namespace HenryMod.Survivors.Henry
 
             #region Primary
             Language.Add(prefix + "PRIMARY_SLASH_NAME", "Sword");
-            Language.Add(prefix + "PRIMARY_SLASH_DESCRIPTION", Tokens.agilePrefix + $"Swing forward for <style=cIsDamage>{100f * HenryStaticValues.swordDamageCoefficient}% damage</style>.");
+            Language.Add(prefix + "PRIMARY_SLASH_DESCRIPTION", $"<style=cIsUtility>Agile.</style> Swing forward for <style=cIsDamage>{100f * HenryStaticValues.swordDamageCoefficient}% damage</style>.");
             #endregion
 
             #region Secondary
             Language.Add(prefix + "SECONDARY_GUN_NAME", "Handgun");
-            Language.Add(prefix + "SECONDARY_GUN_DESCRIPTION", Tokens.agilePrefix + $"Fire a handgun for <style=cIsDamage>{100f * HenryStaticValues.gunDamageCoefficient}% damage</style>.");
+            Language.Add(prefix + "SECONDARY_GUN_DESCRIPTION", $"<style=cIsUtility>Agile.</style> Fire a handgun for <style=cIsDamage>{100f * HenryStaticValues.gunDamageCoefficient}% damage</style>.");
             #endregion
 
             #region Utility

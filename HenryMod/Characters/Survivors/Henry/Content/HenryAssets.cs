@@ -1,31 +1,30 @@
-﻿using RoR2;
-using UnityEngine;
-using HenryMod.Modules;
-using System;
+﻿using HenryMod.Modules;
+using R2API;
+using RoR2;
 using RoR2.Projectile;
+using RoR2BepInExPack.GameAssetPaths.Version_1_39_0;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
 
-namespace HenryMod.Survivors.Henry
-{
-    public static class HenryAssets
-    {
-        // particle effects
+namespace HenryMod.Survivors.Henry {
+    public static class HenryAssets {
         public static GameObject swordSwingEffect;
+
         public static GameObject swordHitImpactEffect;
 
         public static GameObject bombExplosionEffect;
 
-        // networked hit sounds
         public static NetworkSoundEventDef swordHitSoundEvent;
 
-        //projectiles
         public static GameObject bombProjectilePrefab;
 
         private static AssetBundle _assetBundle;
 
-        public static void Init(AssetBundle assetBundle)
-        {
+        public static void Init(AssetBundle assetBundle) {
 
             _assetBundle = assetBundle;
+
+            HenryPlugin.instance.StartCoroutine(ShaderSwapper.ShaderSwapper.UpgradeStubbedShadersAsync(assetBundle));
 
             swordHitSoundEvent = Content.CreateAndAddNetworkSoundEventDef("HenrySwordHit");
 
@@ -35,16 +34,14 @@ namespace HenryMod.Survivors.Henry
         }
 
         #region effects
-        private static void CreateEffects()
-        {
+        private static void CreateEffects() {
             CreateBombExplosionEffect();
 
             swordSwingEffect = _assetBundle.LoadEffect("HenrySwordSwingEffect", true);
             swordHitImpactEffect = _assetBundle.LoadEffect("ImpactHenrySlash");
         }
 
-        private static void CreateBombExplosionEffect()
-        {
+        private static void CreateBombExplosionEffect() {
             bombExplosionEffect = _assetBundle.LoadEffect("BombExplosionEffect", "HenryBombExplosion");
 
             if (!bombExplosionEffect)
@@ -56,8 +53,7 @@ namespace HenryMod.Survivors.Henry
             shakeEmitter.radius = 200f;
             shakeEmitter.scaleShakeRadiusWithLocalScale = false;
 
-            shakeEmitter.wave = new Wave
-            {
+            shakeEmitter.wave = new Wave {
                 amplitude = 1f,
                 frequency = 40f,
                 cycleOffset = 0f
@@ -67,21 +63,17 @@ namespace HenryMod.Survivors.Henry
         #endregion effects
 
         #region projectiles
-        private static void CreateProjectiles()
-        {
+        private static void CreateProjectiles() {
             CreateBombProjectile();
             Content.AddProjectilePrefab(bombProjectilePrefab);
         }
 
-        private static void CreateBombProjectile()
-        {
-            //highly recommend setting up projectiles in editor, but this is a quick and dirty way to prototype if you want
-            bombProjectilePrefab = Asset.CloneProjectilePrefab("CommandoGrenadeProjectile", "HenryBombProjectile");
+        private static void CreateBombProjectile() {
+            bombProjectilePrefab = Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Commando.CommandoGrenadeProjectile_prefab).WaitForCompletion().InstantiateClone("HenryBombProjectile");
 
-            //remove their ProjectileImpactExplosion component and start from default values
             UnityEngine.Object.Destroy(bombProjectilePrefab.GetComponent<ProjectileImpactExplosion>());
             ProjectileImpactExplosion bombImpactExplosion = bombProjectilePrefab.AddComponent<ProjectileImpactExplosion>();
-            
+
             bombImpactExplosion.blastRadius = 16f;
             bombImpactExplosion.blastDamageCoefficient = 1f;
             bombImpactExplosion.falloffModel = BlastAttack.FalloffModel.None;
@@ -94,9 +86,10 @@ namespace HenryMod.Survivors.Henry
 
             ProjectileController bombController = bombProjectilePrefab.GetComponent<ProjectileController>();
 
-            if (_assetBundle.LoadAsset<GameObject>("HenryBombGhost") != null)
+            if (_assetBundle.LoadAsset<GameObject>("HenryBombGhost") != null) {
                 bombController.ghostPrefab = _assetBundle.CreateProjectileGhostPrefab("HenryBombGhost");
-            
+            }
+
             bombController.startSound = "";
         }
         #endregion projectiles

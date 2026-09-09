@@ -2,14 +2,10 @@
 using RoR2;
 using RoR2.Skills;
 using System;
-using System.Collections.Generic;
-using HenryMod;
 using UnityEngine;
 
-namespace HenryMod.Modules
-{
-    internal static class Skills
-    {
+namespace HenryMod.Modules {
+    internal static class Skills {
         #region genericskills
         public static void CreateSkillFamilies(GameObject targetPrefab) => CreateSkillFamilies(targetPrefab, SkillSlot.Primary, SkillSlot.Secondary, SkillSlot.Utility, SkillSlot.Special);
         /// <summary>
@@ -17,14 +13,11 @@ namespace HenryMod.Modules
         /// </summary>
         /// <param name="targetPrefab">Body prefab to add GenericSkills</param>
         /// <param name="slots">Order of slots to add to the body prefab.</param>
-        public static void CreateSkillFamilies(GameObject targetPrefab, params SkillSlot[] slots)
-        {
+        public static void CreateSkillFamilies(GameObject targetPrefab, params SkillSlot[] slots) {
             SkillLocator skillLocator = targetPrefab.GetComponent<SkillLocator>();
 
-            for (int i = 0; i < slots.Length; i++)
-            {
-                switch (slots[i])
-                {
+            for (int i = 0; i < slots.Length; i++) {
+                switch (slots[i]) {
                     case SkillSlot.Primary:
                         skillLocator.primary = CreateGenericSkillWithSkillFamily(targetPrefab, "Primary");
                         break;
@@ -43,19 +36,15 @@ namespace HenryMod.Modules
             }
         }
 
-        public static void ClearGenericSkills(GameObject targetPrefab)
-        {
-            foreach (GenericSkill obj in targetPrefab.GetComponentsInChildren<GenericSkill>())
-            {
+        public static void ClearGenericSkills(GameObject targetPrefab) {
+            foreach (GenericSkill obj in targetPrefab.GetComponentsInChildren<GenericSkill>()) {
                 UnityEngine.Object.DestroyImmediate(obj);
             }
         }
 
-        public static GenericSkill CreateGenericSkillWithSkillFamily(GameObject targetPrefab, SkillSlot skillSlot, bool hidden = false)
-        {
+        public static GenericSkill CreateGenericSkillWithSkillFamily(GameObject targetPrefab, SkillSlot skillSlot, bool hidden = false) {
             SkillLocator skillLocator = targetPrefab.GetComponent<SkillLocator>();
-            switch (skillSlot)
-            {
+            switch (skillSlot) {
                 case SkillSlot.Primary:
                     return skillLocator.primary = CreateGenericSkillWithSkillFamily(targetPrefab, "Primary", hidden);
                 case SkillSlot.Secondary:
@@ -71,8 +60,7 @@ namespace HenryMod.Modules
             return null;
         }
         public static GenericSkill CreateGenericSkillWithSkillFamily(GameObject targetPrefab, string familyName, bool hidden = false) => CreateGenericSkillWithSkillFamily(targetPrefab, familyName, familyName, hidden);
-        public static GenericSkill CreateGenericSkillWithSkillFamily(GameObject targetPrefab, string genericSkillName, string familyName, bool hidden = false)
-        {
+        public static GenericSkill CreateGenericSkillWithSkillFamily(GameObject targetPrefab, string genericSkillName, string familyName, bool hidden = false) {
             GenericSkill skill = targetPrefab.AddComponent<GenericSkill>();
             skill.skillName = genericSkillName;
             skill.hideInCharacterSelect = hidden;
@@ -91,40 +79,32 @@ namespace HenryMod.Modules
         #region skillfamilies
 
         //everything calls this
-        public static void AddSkillToFamily(SkillFamily skillFamily, SkillDef skillDef, UnlockableDef unlockableDef = null)
-        {
+        public static void AddSkillToFamily(SkillFamily skillFamily, SkillDef skillDef, UnlockableDef unlockableDef = null) {
             Array.Resize(ref skillFamily.variants, skillFamily.variants.Length + 1);
 
-            skillFamily.variants[skillFamily.variants.Length - 1] = new SkillFamily.Variant
-            {
+            skillFamily.variants[skillFamily.variants.Length - 1] = new SkillFamily.Variant {
                 skillDef = skillDef,
                 unlockableDef = unlockableDef,
                 viewableNode = new ViewablesCatalog.Node(skillDef.skillNameToken, false, null)
             };
         }
 
-        public static void AddSkillsToFamily(SkillFamily skillFamily, params SkillDef[] skillDefs)
-        {
-            foreach (SkillDef skillDef in skillDefs)
-            {
+        public static void AddSkillsToFamily(SkillFamily skillFamily, params SkillDef[] skillDefs) {
+            foreach (SkillDef skillDef in skillDefs) {
                 AddSkillToFamily(skillFamily, skillDef);
             }
         }
 
-        public static void AddPrimarySkills(GameObject targetPrefab, params SkillDef[] skillDefs)
-        {
+        public static void AddPrimarySkills(GameObject targetPrefab, params SkillDef[] skillDefs) {
             AddSkillsToFamily(targetPrefab.GetComponent<SkillLocator>().primary.skillFamily, skillDefs);
         }
-        public static void AddSecondarySkills(GameObject targetPrefab, params SkillDef[] skillDefs)
-        {
+        public static void AddSecondarySkills(GameObject targetPrefab, params SkillDef[] skillDefs) {
             AddSkillsToFamily(targetPrefab.GetComponent<SkillLocator>().secondary.skillFamily, skillDefs);
         }
-        public static void AddUtilitySkills(GameObject targetPrefab, params SkillDef[] skillDefs)
-        {
+        public static void AddUtilitySkills(GameObject targetPrefab, params SkillDef[] skillDefs) {
             AddSkillsToFamily(targetPrefab.GetComponent<SkillLocator>().utility.skillFamily, skillDefs);
         }
-        public static void AddSpecialSkills(GameObject targetPrefab, params SkillDef[] skillDefs)
-        {
+        public static void AddSpecialSkills(GameObject targetPrefab, params SkillDef[] skillDefs) {
             AddSkillsToFamily(targetPrefab.GetComponent<SkillLocator>().special.skillFamily, skillDefs);
         }
 
@@ -134,10 +114,8 @@ namespace HenryMod.Modules
         /// AddUnlockablesToFamily(skillLocator.primary, null, skill2UnlockableDef, null, skill4UnlockableDef);
         /// </code>
         /// </summary>
-        public static void AddUnlockablesToFamily(SkillFamily skillFamily, params UnlockableDef[] unlockableDefs)
-        {
-            for (int i = 0; i < unlockableDefs.Length; i++)
-            {
+        public static void AddUnlockablesToFamily(SkillFamily skillFamily, params UnlockableDef[] unlockableDefs) {
+            for (int i = 0; i < unlockableDefs.Length; i++) {
                 SkillFamily.Variant variant = skillFamily.variants[i];
                 variant.unlockableDef = unlockableDefs[i];
                 skillFamily.variants[i] = variant;
@@ -146,13 +124,11 @@ namespace HenryMod.Modules
         #endregion
 
         #region skilldefs
-        public static SkillDef CreateSkillDef(SkillDefInfo skillDefInfo)
-        {
+        public static SkillDef CreateSkillDef(SkillDefInfo skillDefInfo) {
             return CreateSkillDef<SkillDef>(skillDefInfo);
         }
 
-        public static T CreateSkillDef<T>(SkillDefInfo skillDefInfo) where T : SkillDef
-        {
+        public static T CreateSkillDef<T>(SkillDefInfo skillDefInfo) where T : SkillDef {
             //pass in a type for a custom skilldef, e.g. HuntressTrackingSkillDef
             T skillDef = ScriptableObject.CreateInstance<T>();
 
@@ -185,7 +161,7 @@ namespace HenryMod.Modules
 
             skillDef.keywordTokens = skillDefInfo.keywordTokens;
 
-            HenryMod.Modules.Content.AddSkillDef(skillDef);
+            Content.AddSkillDef(skillDef);
 
 
             return skillDef;
@@ -196,8 +172,7 @@ namespace HenryMod.Modules
     /// <summary>
     /// class for easily creating skilldefs with default values, and with a field for UnlockableDef
     /// </summary>
-    internal class SkillDefInfo
-    {
+    internal class SkillDefInfo {
         public string skillName;
         public string skillNameToken;
         public string skillDescriptionToken;
@@ -239,8 +214,7 @@ namespace HenryMod.Modules
 
                             SerializableEntityStateType activationState,
                             string activationStateMachineName = "Weapon",
-                            bool agile = false)
-        {
+                            bool agile = false) {
             this.skillName = skillName;
             this.skillNameToken = skillNameToken;
             this.skillDescriptionToken = skillDescriptionToken;
