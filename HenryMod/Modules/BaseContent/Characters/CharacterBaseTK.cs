@@ -7,8 +7,6 @@ namespace HenryMod.Modules.Characters {
 
         public abstract string bodyName { get; }
 
-        public abstract string modelPrefabName { get; }
-
         public virtual ItemDisplaysBase itemDisplays { get; }
 
         public static T instance { get; private set; }
@@ -37,11 +35,11 @@ namespace HenryMod.Modules.Characters {
         }
 
         protected virtual void InitCharacterBodyPrefab() {
-            characterModelObject = Prefabs.LoadCharacterModel(assetBundle, modelPrefabName);
-
             bodyPrefab = Prefabs.LoadCharacterBody(assetBundle, bodyName);
 
             prefabCharacterBody = bodyPrefab.GetComponent<CharacterBody>();
+
+            characterModelObject = bodyPrefab.GetComponent<ModelLocator>().modelTransform.gameObject;
 
             prefabCharacterModel = characterModelObject.GetComponent<CharacterModel>();
         }

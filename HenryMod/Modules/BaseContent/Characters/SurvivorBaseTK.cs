@@ -33,20 +33,16 @@ namespace HenryMod.Modules.Characters {
             Prefabs.SetupRagdoll(characterModelObject);
 
             if (prefabCharacterBody) {
-                if (prefabCharacterBody.TryGetComponent(out ModelLocator modelLocator) && modelLocator.modelTransform) {
-                    if (modelLocator.modelTransform.TryGetComponent(out FootstepHandler footstepHandler)) {
-                        footstepHandler.footstepDustPrefab = footstepDustPrefab;
-                    } else {
-                        Log.Error("Model transform on character body does not have a FootstepHandler component!");
-                    }
+                if (characterModelObject && characterModelObject.TryGetComponent(out FootstepHandler footstepHandler)) {
+                    footstepHandler.footstepDustPrefab = footstepDustPrefab;
                 } else {
-                    Log.Error("Character body prefab does not have a valid ModelLocator component (required, with modelTransform assigned)!");
+                    Log.Error("No valid FootstepHandler component found!");
                 }
                 prefabCharacterBody.GetComponent<CameraTargetParams>().cameraParams = cameraParams;
                 prefabCharacterBody._defaultCrosshairPrefab = crosshairPrefab;
                 prefabCharacterBody.preferredPodPrefab = podPrefab;
             } else {
-                Log.Error("Character body prefab does not have a CharacterBody component!");
+                Log.Error("No valid CharacterBody component found!");
             }
 
             InitDisplayPrefab();
