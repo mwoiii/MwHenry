@@ -129,7 +129,6 @@ namespace HenryMod.Modules {
         }
 
         public static T CreateSkillDef<T>(SkillDefInfo skillDefInfo) where T : SkillDef {
-            //pass in a type for a custom skilldef, e.g. HuntressTrackingSkillDef
             T skillDef = ScriptableObject.CreateInstance<T>();
 
             skillDef.skillName = skillDefInfo.skillName;

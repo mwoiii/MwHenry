@@ -3,10 +3,12 @@ using KinematicCharacterController;
 using R2API;
 using RoR2;
 using RoR2.CharacterAI;
+using RoR2BepInExPack.GameAssetPaths.Version_1_39_0;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace HenryMod.Modules {
     internal static class Prefabs {
@@ -55,6 +57,7 @@ namespace HenryMod.Modules {
                 Log.Error($"could not load body prefab {bodyName}. Make sure this prefab exists in assetbundle {assetBundle.name}");
                 return null;
             }
+            Content.AddCharacterBodyPrefab(body);
             return body;
         }
 
@@ -117,7 +120,7 @@ namespace HenryMod.Modules {
             //SetupRigidbody(newPrefab);
             SetupCapsuleCollider(newBodyPrefab);
 
-            Modules.Content.AddCharacterBodyPrefab(newBodyPrefab);
+            Content.AddCharacterBodyPrefab(newBodyPrefab);
 
             return newBodyPrefab;
         }
@@ -434,12 +437,12 @@ namespace HenryMod.Modules {
             footstepHandler.footstepDustPrefab = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/GenericFootstepDust");
         }
 
-        private static void SetupRagdoll(GameObject model) {
+        public static void SetupRagdoll(GameObject model) {
             RagdollController ragdollController = model.GetComponent<RagdollController>();
 
             if (!ragdollController) return;
 
-            if (ragdollMaterial == null) ragdollMaterial = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<RagdollController>().bones[1].GetComponent<Collider>().material;
+            if (ragdollMaterial == null) ragdollMaterial = Addressables.LoadAssetAsync<PhysicMaterial>(RoR2_Base_Common.physmatRagdoll_physicMaterial).WaitForCompletion();
 
             foreach (Transform boneTransform in ragdollController.bones) {
                 if (boneTransform) {
@@ -482,7 +485,7 @@ namespace HenryMod.Modules {
         public static GameObject CreateBlankMasterPrefab(GameObject bodyPrefab, string masterName) {
             GameObject masterObject = PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/CommandoMonsterMaster"), masterName, true);
             //should the user call this themselves?
-            Modules.ContentPacks.masterPrefabs.Add(masterObject);
+            ContentPacks.masterPrefabs.Add(masterObject);
 
             CharacterMaster characterMaster = masterObject.GetComponent<CharacterMaster>();
             characterMaster.bodyPrefab = bodyPrefab;
@@ -493,6 +496,10 @@ namespace HenryMod.Modules {
             }
 
             return masterObject;
+        }
+
+        public static void AddMaster(GameObject masterPrefab) {
+            ContentPacks.masterPrefabs.Add(masterPrefab);
         }
 
         public static GameObject LoadMaster(this AssetBundle assetBundle, GameObject bodyPrefab, string assetName) {

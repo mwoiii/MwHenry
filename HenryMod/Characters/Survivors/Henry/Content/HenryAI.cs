@@ -1,4 +1,5 @@
-﻿using RoR2;
+﻿using HenryMod.Modules;
+using RoR2;
 using RoR2.CharacterAI;
 using UnityEngine;
 
@@ -138,6 +139,10 @@ namespace HenryMod.Survivors.Henry {
             chaseDriver.aimType = AISkillDriver.AimType.AtMoveTarget;
             chaseDriver.buttonPressType = AISkillDriver.ButtonPressType.Hold;
             #endregion
+        }
+
+        public static void Init(GameObject masterPrefab) {
+            Prefabs.AddMaster(masterPrefab);
         }
     }
 }

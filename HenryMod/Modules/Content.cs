@@ -39,11 +39,11 @@ namespace HenryMod.Modules {
             survivorDef.desiredSortPosition = sortPosition;
             survivorDef.unlockableDef = unlockableDef;
 
-            Modules.Content.AddSurvivorDef(survivorDef);
+            AddSurvivorDef(survivorDef);
         }
 
         internal static void CreateSurvivor(SurvivorDef survivorDef) {
-            Modules.Content.AddSurvivorDef(survivorDef);
+            AddSurvivorDef(survivorDef);
         }
 
         internal static void AddUnlockableDef(UnlockableDef unlockableDef) {
