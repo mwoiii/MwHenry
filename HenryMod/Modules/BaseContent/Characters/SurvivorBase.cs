@@ -1,7 +1,9 @@
 ﻿using RoR2;
 using RoR2.Skills;
+using RoR2BepInExPack.GameAssetPaths.Version_1_39_0;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace HenryMod.Modules.Characters {
     public abstract class SurvivorBase<T> : CharacterBase<T> where T : SurvivorBase<T>, new() {
@@ -9,14 +11,39 @@ namespace HenryMod.Modules.Characters {
 
         public abstract string displayPrefabName { get; }
 
+        public abstract string survivorDefName { get; }
+
         public abstract string survivorTokenPrefix { get; }
 
         public abstract UnlockableDef characterUnlockableDef { get; }
 
         public abstract GameObject displayPrefab { get; protected set; }
 
+        public virtual GameObject crosshairPrefab => Addressables.LoadAssetAsync<GameObject>(RoR2_Base_UI.SimpleDotCrosshair_prefab).WaitForCompletion();
+
+        public virtual GameObject podPrefab => Addressables.LoadAssetAsync<GameObject>(RoR2_Base_SurvivorPod.SurvivorPod_prefab).WaitForCompletion();
+
+        public virtual GameObject footstepDustPrefab => Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Common_VFX.GenericFootstepDust_prefab).WaitForCompletion();
+
+        public virtual CharacterCameraParams cameraParams => Addressables.LoadAssetAsync<CharacterCameraParams>(RoR2_Base_Common.ccpStandard_asset).WaitForCompletion();
+
         public override void InitCharacter() {
             base.InitCharacter();
+
+            Prefabs.SetupRagdoll(characterModelObject);
+
+            if (prefabCharacterBody) {
+                if (characterModelObject && characterModelObject.TryGetComponent(out FootstepHandler footstepHandler)) {
+                    footstepHandler.footstepDustPrefab = footstepDustPrefab;
+                } else {
+                    Log.Error("No valid FootstepHandler component found!");
+                }
+                prefabCharacterBody.GetComponent<CameraTargetParams>().cameraParams = cameraParams;
+                prefabCharacterBody._defaultCrosshairPrefab = crosshairPrefab;
+                prefabCharacterBody.preferredPodPrefab = podPrefab;
+            } else {
+                Log.Error("No valid CharacterBody component found!");
+            }
 
             InitDisplayPrefab();
 
@@ -24,11 +51,16 @@ namespace HenryMod.Modules.Characters {
         }
 
         protected virtual void InitDisplayPrefab() {
-            displayPrefab = Prefabs.CreateDisplayPrefab(assetBundle, displayPrefabName, bodyPrefab);
+            displayPrefab = Prefabs.LoadDisplayPrefab(assetBundle, displayPrefabName);
         }
 
         protected virtual void InitSurvivor() {
-            Content.CreateSurvivor(bodyPrefab, displayPrefab, bodyInfo.bodyColor, survivorTokenPrefix, characterUnlockableDef, bodyInfo.sortPosition);
+            SurvivorDef survivorDef = assetBundle.LoadAsset<SurvivorDef>(survivorDefName);
+            if (survivorDef != null) {
+                Content.AddSurvivorDef(survivorDef);
+            } else {
+                Log.Error("SurvivorDef not found!");
+            }
         }
 
         #region CharacterSelectSurvivorPreviewDisplayController

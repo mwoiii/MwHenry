@@ -7,7 +7,7 @@ namespace HenryMod.Survivors.Henry.Achievements {
         public const string identifier = HenrySurvivor.HENRY_PREFIX + "masteryAchievement";
         public const string unlockableIdentifier = HenrySurvivor.HENRY_PREFIX + "masteryUnlockable";
 
-        public override string RequiredCharacterBody => HenrySurvivorTK.instance.bodyName;
+        public override string RequiredCharacterBody => HenrySurvivor.instance.bodyName;
 
         public override float RequiredDifficultyCoefficient => 3;
     }

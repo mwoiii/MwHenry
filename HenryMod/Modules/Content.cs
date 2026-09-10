@@ -18,37 +18,13 @@ namespace HenryMod.Modules {
         }
 
         internal static void AddSurvivorDef(SurvivorDef survivorDef) {
-
             ContentPacks.survivorDefs.Add(survivorDef);
-        }
-        internal static void CreateSurvivor(GameObject bodyPrefab, GameObject displayPrefab, Color charColor, string tokenPrefix) { CreateSurvivor(bodyPrefab, displayPrefab, charColor, tokenPrefix, null, 100f); }
-        internal static void CreateSurvivor(GameObject bodyPrefab, GameObject displayPrefab, Color charColor, string tokenPrefix, float sortPosition) { CreateSurvivor(bodyPrefab, displayPrefab, charColor, tokenPrefix, null, sortPosition); }
-        internal static void CreateSurvivor(GameObject bodyPrefab, GameObject displayPrefab, Color charColor, string tokenPrefix, UnlockableDef unlockableDef) { CreateSurvivor(bodyPrefab, displayPrefab, charColor, tokenPrefix, unlockableDef, 100f); }
-        internal static void CreateSurvivor(GameObject bodyPrefab, GameObject displayPrefab, Color charColor, string tokenPrefix, UnlockableDef unlockableDef, float sortPosition) {
-            SurvivorDef survivorDef = ScriptableObject.CreateInstance<SurvivorDef>();
-            survivorDef.bodyPrefab = bodyPrefab;
-            survivorDef.displayPrefab = displayPrefab;
-            survivorDef.primaryColor = charColor;
-
-            survivorDef.cachedName = bodyPrefab.name.Replace("Body", "");
-            survivorDef.displayNameToken = tokenPrefix + "NAME";
-            survivorDef.descriptionToken = tokenPrefix + "DESCRIPTION";
-            survivorDef.outroFlavorToken = tokenPrefix + "OUTRO_FLAVOR";
-            survivorDef.mainEndingEscapeFailureFlavorToken = tokenPrefix + "OUTRO_FAILURE";
-
-            survivorDef.desiredSortPosition = sortPosition;
-            survivorDef.unlockableDef = unlockableDef;
-
-            AddSurvivorDef(survivorDef);
-        }
-
-        internal static void CreateSurvivor(SurvivorDef survivorDef) {
-            AddSurvivorDef(survivorDef);
         }
 
         internal static void AddUnlockableDef(UnlockableDef unlockableDef) {
             ContentPacks.unlockableDefs.Add(unlockableDef);
         }
+
         internal static UnlockableDef CreateAndAddUnlockbleDef(string identifier, string nameToken, Sprite achievementIcon) {
             UnlockableDef unlockableDef = ScriptableObject.CreateInstance<UnlockableDef>();
             unlockableDef.cachedName = identifier;

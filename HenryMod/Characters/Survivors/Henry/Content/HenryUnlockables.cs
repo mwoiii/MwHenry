@@ -11,7 +11,7 @@ namespace HenryMod.Survivors.Henry {
             masterySkinUnlockableDef = Modules.Content.CreateAndAddUnlockbleDef(
                 HenryMasteryAchievement.unlockableIdentifier,
                 Modules.Tokens.GetAchievementNameToken(HenryMasteryAchievement.identifier),
-                HenrySurvivorTK.instance.assetBundle.LoadAsset<Sprite>("texMasteryAchievement"));
+                HenrySurvivor.instance.assetBundle.LoadAsset<Sprite>("texMasteryAchievement"));
         }
     }
 }
