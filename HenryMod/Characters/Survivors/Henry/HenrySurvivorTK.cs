@@ -10,8 +10,6 @@ namespace HenryMod.Survivors.Henry {
 
         public override string masterName => "HenryMonsterMaster";
 
-        public override string modelPrefabName => "mdlHenry";
-
         public override string displayPrefabName => "HenryDisplay";
 
         public const string HENRY_PREFIX = HenryPlugin.DEVELOPER_PREFIX + "_HENRY_";

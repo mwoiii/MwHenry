@@ -449,7 +449,6 @@ namespace HenryMod.Modules {
                     boneTransform.gameObject.layer = LayerIndex.ragdoll.intVal;
                     Collider boneCollider = boneTransform.GetComponent<Collider>();
                     if (boneCollider) {
-                        //boneCollider.material = ragdollMaterial;
                         boneCollider.sharedMaterial = ragdollMaterial;
                     } else {
                         Log.Error($"Ragdoll bone {boneTransform.gameObject} doesn't have a collider. Ragdoll will break.");

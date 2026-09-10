@@ -29,8 +29,8 @@ namespace HenryMod {
 
             Modules.Language.Init();
 
-            new HenrySurvivor().Init();
-            //new HenrySurvivorTK().Init();
+            //new HenrySurvivor().Init();
+            new HenrySurvivorTK().Init();
 
             //Options.Init();
 
