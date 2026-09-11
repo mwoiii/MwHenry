@@ -35,7 +35,7 @@ MonoBehaviour:
   dontAllowPastMaxStocks: 0
   beginSkillCooldownOnSkillEnd: 0
   isCooldownBlockedUntilManuallyReset: 0
-  cancelSprintingOnActivation: 1
+  cancelSprintingOnActivation: 0
   forceSprintDuringState: 0
   canceledFromSprinting: 0
   isCombatSkill: 1
