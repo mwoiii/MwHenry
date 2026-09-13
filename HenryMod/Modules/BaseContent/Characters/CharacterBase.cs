@@ -11,15 +11,15 @@ namespace HenryMod.Modules.Characters {
 
         public static T instance { get; private set; }
 
-        public abstract AssetBundle assetBundle { get; protected set; }
+        public virtual AssetBundle assetBundle { get; protected set; }
 
-        public abstract GameObject bodyPrefab { get; protected set; }
+        public virtual GameObject bodyPrefab { get; protected set; }
 
-        public abstract CharacterBody prefabCharacterBody { get; protected set; }
+        public virtual CharacterBody prefabCharacterBody { get; protected set; }
 
-        public abstract GameObject characterModelObject { get; protected set; }
+        public virtual GameObject characterModelObject { get; protected set; }
 
-        public abstract CharacterModel prefabCharacterModel { get; protected set; }
+        public virtual CharacterModel prefabCharacterModel { get; protected set; }
 
         public virtual void Init() {
             instance = this as T;

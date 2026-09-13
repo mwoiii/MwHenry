@@ -1,6 +1,5 @@
 ﻿using HenryMod.Modules.Characters;
 using RoR2;
-using UnityEngine;
 
 namespace HenryMod.Survivors.Henry {
     public class HenrySurvivor : SurvivorBase<HenrySurvivor> {
@@ -19,18 +18,6 @@ namespace HenryMod.Survivors.Henry {
         public override UnlockableDef characterUnlockableDef => HenryUnlockables.characterUnlockableDef;
 
         public override ItemDisplaysBase itemDisplays => new HenryItemDisplays();
-
-        public override AssetBundle assetBundle { get; protected set; }
-
-        public override GameObject bodyPrefab { get; protected set; }
-
-        public override CharacterBody prefabCharacterBody { get; protected set; }
-
-        public override GameObject characterModelObject { get; protected set; }
-
-        public override CharacterModel prefabCharacterModel { get; protected set; }
-
-        public override GameObject displayPrefab { get; protected set; }
 
         public override string survivorDefName => "Henry";
 

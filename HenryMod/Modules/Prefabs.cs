@@ -67,11 +67,5 @@ namespace HenryMod.Modules {
             }
         }
         #endregion
-
-        #region master        
-        public static void AddMaster(GameObject masterPrefab) {
-            ContentPacks.masterPrefabs.Add(masterPrefab);
-        }
-        #endregion master
     }
 }

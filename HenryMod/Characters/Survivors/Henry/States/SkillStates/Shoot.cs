@@ -2,7 +2,7 @@
 using RoR2;
 using UnityEngine;
 
-namespace HenryMod.Survivors.Henry.SkillStates {
+namespace HenryMod.Survivors.Henry.States {
     public class Shoot : BaseSkillState {
         public static float damageCoefficient = HenryStaticValues.gunDamageCoefficient;
         public static float procCoefficient = 1f;

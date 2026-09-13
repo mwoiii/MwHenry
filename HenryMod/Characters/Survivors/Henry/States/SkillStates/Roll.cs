@@ -3,7 +3,7 @@ using RoR2;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace HenryMod.Survivors.Henry.SkillStates {
+namespace HenryMod.Survivors.Henry.States {
     public class Roll : BaseSkillState {
         public static float duration = 0.5f;
         public static float initialSpeedCoefficient = 5f;

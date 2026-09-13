@@ -2,7 +2,7 @@
 using RoR2;
 using RoR2.Projectile;
 
-namespace HenryMod.Survivors.Henry.SkillStates {
+namespace HenryMod.Survivors.Henry.States {
     public class ThrowBomb : GenericProjectileBaseState {
         public static float BaseDuration = 0.65f;
 

@@ -17,7 +17,9 @@ namespace HenryMod.Modules.Characters {
 
         public abstract UnlockableDef characterUnlockableDef { get; }
 
-        public abstract GameObject displayPrefab { get; protected set; }
+        public virtual GameObject displayPrefab { get; protected set; }
+
+        public virtual GameObject masterPrefab { get; protected set; }
 
         public virtual GameObject crosshairPrefab => Addressables.LoadAssetAsync<GameObject>(RoR2_Base_UI.SimpleDotCrosshair_prefab).WaitForCompletion();
 
@@ -36,18 +38,29 @@ namespace HenryMod.Modules.Characters {
                 if (characterModelObject && characterModelObject.TryGetComponent(out FootstepHandler footstepHandler)) {
                     footstepHandler.footstepDustPrefab = footstepDustPrefab;
                 } else {
-                    Log.Error("No valid FootstepHandler component found!");
+                    Log.Error($"No valid FootstepHandler component found for {characterModelObject.name}!");
                 }
                 prefabCharacterBody.GetComponent<CameraTargetParams>().cameraParams = cameraParams;
                 prefabCharacterBody._defaultCrosshairPrefab = crosshairPrefab;
                 prefabCharacterBody.preferredPodPrefab = podPrefab;
             } else {
-                Log.Error("No valid CharacterBody component found!");
+                Log.Error($"No valid CharacterBody component found for {bodyPrefab.name}!");
             }
 
             InitDisplayPrefab();
 
             InitSurvivor();
+
+            InitMaster();
+        }
+
+        protected virtual void InitMaster() {
+            masterPrefab = assetBundle.LoadAsset<GameObject>(masterName);
+            if (masterPrefab) {
+                Content.AddMasterPrefab(masterPrefab);
+            } else {
+                Log.Error($"Master prefab \"{masterName}\" not found!");
+            }
         }
 
         protected virtual void InitDisplayPrefab() {
@@ -59,7 +72,7 @@ namespace HenryMod.Modules.Characters {
             if (survivorDef != null) {
                 Content.AddSurvivorDef(survivorDef);
             } else {
-                Log.Error("SurvivorDef not found!");
+                Log.Error($"SurvivorDef \"{survivorDefName}\" not found!");
             }
         }
 

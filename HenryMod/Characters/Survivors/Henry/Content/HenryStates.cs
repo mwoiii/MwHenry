@@ -1,4 +1,4 @@
-﻿using HenryMod.Survivors.Henry.SkillStates;
+﻿using HenryMod.Survivors.Henry.States;
 
 namespace HenryMod.Survivors.Henry {
     public static class HenryStates {
@@ -10,6 +10,8 @@ namespace HenryMod.Survivors.Henry {
             Modules.Content.AddEntityState(typeof(Roll));
 
             Modules.Content.AddEntityState(typeof(ThrowBomb));
+
+            Modules.Content.AddEntityState(typeof(DeathState));
         }
     }
 }

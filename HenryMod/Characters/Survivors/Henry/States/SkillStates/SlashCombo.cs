@@ -2,7 +2,7 @@
 using RoR2;
 using UnityEngine;
 
-namespace HenryMod.Survivors.Henry.SkillStates {
+namespace HenryMod.Survivors.Henry.States {
     public class SlashCombo : BaseMeleeAttack {
         public override void OnEnter() {
             hitboxGroupName = "SwordGroup";

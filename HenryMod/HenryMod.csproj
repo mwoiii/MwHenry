@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <Configurations>Release;Debug</Configurations>
+    <Configurations>Release;Debug;ToUnity</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -46,7 +46,7 @@
 	  </Reference>
 	</ItemGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="if &quot;$(Username)&quot; == &quot;alex&quot; set build=true&#xD;&#xA;&#xD;&#xA;if defined build (&#xD;&#xA;&#xD;&#xA;copy &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\Build\plugins&quot;&#xD;&#xA;&#xD;&#xA;if exist &quot;$(ProjectDir)..\HenryUnityProject\AssetBundles\StandaloneWindows\mwmwhenryassetbundle&quot; (&#xD;&#xA;copy &quot;$(ProjectDir)..\HenryUnityProject\AssetBundles\StandaloneWindows\mwmwhenryassetbundle&quot; &quot;$(ProjectDir)..\Build\plugins\AssetBundles&quot;&#xD;&#xA;)&#xD;&#xA;&#xD;&#xA;Xcopy /E /I /Y &quot;$(ProjectDir)..\Build\plugins&quot; &quot;C:\Users\mwoi\AppData\Roaming\r2modmanPlus-local\RiskOfRain2\profiles\Default\BepInEx\plugins\mwmw-henrymod&quot;&#xD;&#xA;)&#xD;&#xA;" />
+    <Exec Command="if &quot;$(Username)&quot; == &quot;alex&quot; set build=true&#xD;&#xA;&#xD;&#xA;if defined build (&#xD;&#xA;&#xD;&#xA;if &quot;$(ConfigurationName)&quot; == &quot;Debug&quot; (&#xD;&#xA;copy &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\Build\plugins&quot;&#xD;&#xA;if exist &quot;$(ProjectDir)..\HenryUnityProject\AssetBundles\StandaloneWindows\mwmwhenryassetbundle&quot; (&#xD;&#xA;copy &quot;$(ProjectDir)..\HenryUnityProject\AssetBundles\StandaloneWindows\mwmwhenryassetbundle&quot; &quot;$(ProjectDir)..\Build\plugins\AssetBundles&quot;&#xD;&#xA;)&#xD;&#xA;Xcopy /E /I /Y &quot;$(ProjectDir)..\Build\plugins&quot; &quot;C:\Users\mwoi\AppData\Roaming\r2modmanPlus-local\RiskOfRain2\profiles\Default\BepInEx\plugins\mwmw-henrymod&quot;&#xD;&#xA;)&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;if &quot;$(ConfigurationName)&quot; == &quot;ToUnity&quot; (&#xD;&#xA;copy &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..\HenryUnityProject\Assets\HenryAssets\HenryLib&quot;&#xD;&#xA;)&#xD;&#xA;&#xD;&#xA;)" />
   </Target>
 
 </Project>

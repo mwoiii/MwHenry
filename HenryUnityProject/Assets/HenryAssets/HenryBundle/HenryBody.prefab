@@ -659,8 +659,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deathStateMachine: {fileID: 939337780744701809}
   deathState:
-    _typeName: EntityStates.GenericCharacterDeath, RoR2, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    _typeName: HenryMod.Survivors.Henry.States.DeathState, HenryMod, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   idleStateMachine:
   - {fileID: 1341665551041638845}
   - {fileID: 8007372180456388695}
