@@ -1494,19 +1494,6 @@ MonoBehaviour:
   - {fileID: 5709678839123234102}
   mainHurtBox: {fileID: 2470281779054523940}
   bullseyeCount: 1
---- !u!114 &6800355846368426548
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3261770393991547680}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -46258121, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  soundCenter: {fileID: 0}
 --- !u!114 &7385365089109479515
 MonoBehaviour:
   m_ObjectHideFlags: 0
