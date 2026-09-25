@@ -8,13 +8,10 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
+/[Pp]ackages/
 
 #local asset bundle builds
 AssetBundles
-
-# ignore package folder updates
-# if needing to add something new that isn't covered by thunderkit import then should do so manually
-/[Pp]ackages/
 
 
 # MemoryCaptures can get excessive in size.
