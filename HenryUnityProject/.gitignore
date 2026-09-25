@@ -11,7 +11,11 @@
 
 #local asset bundle builds
 AssetBundles
-*Packages/Risk of Rain 2/
+
+# ignore package folder updates
+# if needing to add something new that isn't covered by thunderkit import then should do so manually
+/[Pp]ackages/
+
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
